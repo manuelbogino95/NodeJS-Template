@@ -3,12 +3,18 @@ const bodyParser = require('body-parser');
 const chalk = require('chalk');
 const cors = require('cors');
 const helmet = require('helmet');
+const dotenv = require('dotenv');
+
+/**
+ * Load environment variables from .env file, where API keys and passwords are configured.
+ */
+dotenv.config();
 
 /**
  * Create Express server.
  */
 const app = express();
-const port = 3000;
+const port = process.env.PORT;
 
 /**
  * Express configuration.
