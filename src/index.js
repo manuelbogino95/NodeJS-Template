@@ -1,4 +1,5 @@
 const express = require('express');
+const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const chalk = require('chalk');
 const cors = require('cors');
@@ -16,6 +17,21 @@ dotenv.config();
  */
 const app = express();
 const port = process.env.PORT;
+
+/**
+ * Connect to MongoDB.
+ */
+mongoose.connect(process.env.MONGODB_URL, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  useCreateIndex: true,
+});
+
+mongoose.connection.on('error', err => {
+  console.error(err);
+  console.log('%s MongoDB connection error. Please make sure MongoDB is running.', chalk.red('✗'));
+  process.exit();
+});
 
 /**
  * Express configuration.
