@@ -1,11 +1,12 @@
 const bcrypt = require('bcrypt');
-const User = require('../models/user.model');
-const generateAuthToken = require('../helpers/jwt');
+const User = require('../models');
+const generateAuthToken = require('../helpers');
 
 const createUser = async user => {
   const userModel = new User(user);
 
   if (userModel.isModified('password')) {
+    await userModel.validate();
     userModel.password = await bcrypt.hash(user.password, 8);
   }
 
@@ -34,10 +35,13 @@ const findByCredentials = async (email, password) => {
 
 const getUserById = async id => {
   const user = await User.findOne({ _id: id });
+  const userObject = user.toObject();
+
+  delete userObject.password;
 
   if (!user) throw new Error('No user found');
 
-  return user;
+  return userObject;
 };
 
 module.exports = {

@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken');
 const authMiddleware = async (req, res, next) => {
   try {
     // check header or url parameters or post parameters for token
-    if (!req.headers.authorization) {
+    if (!req.headers.authorization && !req.headers.authorization.split(' ')[0] === 'Bearer') {
       return res.status(403).send('No token provided.');
     }
 
@@ -14,7 +14,7 @@ const authMiddleware = async (req, res, next) => {
 
     req.userId = decoded.id;
     return next();
-  } catch (e) {
+  } catch (error) {
     return res.status(401).send({ error: 'Please authenticate.' });
   }
 };

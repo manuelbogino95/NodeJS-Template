@@ -1,4 +1,4 @@
-const authService = require('../services/auth.service');
+const authService = require('../services');
 
 const postSigninHandler = async (req, res) => {
   try {
