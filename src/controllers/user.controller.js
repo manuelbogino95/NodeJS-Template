@@ -4,9 +4,9 @@ const getUserHandler = async (req, res, next) => {
   try {
     const user = await userService.getUserById(req.userId);
 
-    return res.send(user);
+    res.send(user);
   } catch (error) {
-    return next(error);
+    next(error);
   }
 };
 
@@ -20,7 +20,18 @@ const patchProfileUpdateHandler = async (req, res, next) => {
   }
 };
 
+const deleteUserHandler = async (req, res, next) => {
+  try {
+    await userService.deleteUser(req.userId);
+
+    res.send();
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   getUserHandler,
   patchProfileUpdateHandler,
+  deleteUserHandler,
 };

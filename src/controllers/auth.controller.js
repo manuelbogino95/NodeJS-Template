@@ -5,9 +5,9 @@ const postSigninHandler = async (req, res, next) => {
   try {
     const token = await authService.findByCredentials(req.body.email, req.body.password);
 
-    return res.send({ token });
+    res.send({ token });
   } catch (error) {
-    return next(error);
+    next(error);
   }
 };
 
@@ -17,9 +17,9 @@ const postSignupHandler = async (req, res, next) => {
   try {
     const token = await authService.createUser(user);
 
-    return res.status(httpStatus.CREATED).send({ token });
+    res.status(httpStatus.CREATED).send({ token });
   } catch (error) {
-    return next(error);
+    next(error);
   }
 };
 
