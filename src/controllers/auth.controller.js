@@ -1,3 +1,4 @@
+const httpStatus = require('http-status-codes');
 const authService = require('../services');
 
 const postSigninHandler = async (req, res, next) => {
@@ -10,35 +11,35 @@ const postSigninHandler = async (req, res, next) => {
   }
 };
 
-const postSignupHandler = async (req, res) => {
+const postSignupHandler = async (req, res, next) => {
   const user = { ...req.body };
 
   try {
     const token = await authService.createUser(user);
 
-    return res.status(201).send({ token });
+    return res.status(httpStatus.CREATED).send({ token });
   } catch (error) {
-    return res.status(400).send(error.message);
+    return next(error);
   }
 };
 
-const getUserHandler = async (req, res) => {
+const getUserHandler = async (req, res, next) => {
   try {
     const user = await authService.getUserById(req.userId);
 
-    res.send(user);
+    return res.send(user);
   } catch (error) {
-    res.status(500).send('There was a problem finding the user.');
+    return next(error);
   }
 };
 
-const patchProfileUpdateHandler = async (req, res) => {
+const patchProfileUpdateHandler = async (req, res, next) => {
   try {
     const user = await authService.updateUser(req.body, req.userId);
 
     res.send(user);
   } catch (error) {
-    res.status(400).send(error.message);
+    next(error);
   }
 };
 
