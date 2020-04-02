@@ -4,13 +4,10 @@ const bodyParser = require('body-parser');
 const chalk = require('chalk');
 const cors = require('cors');
 const helmet = require('helmet');
-const dotenv = require('dotenv');
+require('dotenv').config();
 const router = require('./routes');
 const mongooseConnection = require('./db');
 const { errorHandlerMiddleware } = require('./middlewares');
-
-// Load environment variables from .env file, where API keys and passwords are configured.
-dotenv.config();
 
 // Create Express server.
 const app = express();

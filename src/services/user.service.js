@@ -29,9 +29,7 @@ const updateUser = async (fields, userId) => {
 };
 
 const deleteUser = async id => {
-  const user = await User.deleteOne({ _id: id });
-
-  return user;
+  await User.deleteOne({ _id: id });
 };
 
 module.exports = {

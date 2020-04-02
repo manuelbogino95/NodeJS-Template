@@ -3,6 +3,7 @@ const httpStatus = require('http-status-codes');
 const User = require('../models');
 const { jwt } = require('../helpers');
 const { CustomError } = require('../helpers');
+const emailService = require('./email.service');
 
 const createUser = async user => {
   const userModel = new User(user);
@@ -15,6 +16,13 @@ const createUser = async user => {
   const token = await jwt.generateAuthToken(userModel.id);
 
   await userModel.save();
+
+  emailService.sendEmail(
+    userModel.email,
+    'Thanks for joining in!',
+    `Welcome to the app, ${userModel.name}. Let me know how you get along with the app.`
+  );
+
   return token;
 };
 
