@@ -30,8 +30,19 @@ const getUserHandler = async (req, res) => {
   }
 };
 
+const patchProfileUpdateHandler = async (req, res) => {
+  try {
+    const user = await authService.updateUser(req.body, req.userId);
+
+    res.send(user);
+  } catch (error) {
+    res.status(400).send(error.message);
+  }
+};
+
 module.exports = {
   postSigninHandler,
   postSignupHandler,
   getUserHandler,
+  patchProfileUpdateHandler,
 };

@@ -35,17 +35,37 @@ const findByCredentials = async (email, password) => {
 
 const getUserById = async id => {
   const user = await User.findOne({ _id: id });
-  const userObject = user.toObject();
-
-  delete userObject.password;
 
   if (!user) throw new Error('No user found');
 
-  return userObject;
+  return user;
+};
+
+const updateUser = async (fields, userId) => {
+  const updates = Object.keys(fields);
+  const allowedFields = ['name', 'email'];
+  const isValidOperation = updates.every(update => allowedFields.includes(update));
+
+  if (!isValidOperation) throw new Error('Error: invalid updates!');
+
+  // const user = await User.findOne({ _id: userId });
+  const user = await getUserById(userId);
+
+  updates.forEach(update => {
+    user[update] = fields[update];
+  });
+
+  await user.save();
+
+  // eslint-disable-next-line no-underscore-dangle
+  // delete user._doc.password;
+  // console.log(user);
+  return user;
 };
 
 module.exports = {
   createUser,
   findByCredentials,
   getUserById,
+  updateUser,
 };
