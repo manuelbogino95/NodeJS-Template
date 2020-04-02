@@ -1,11 +1,12 @@
 const authService = require('../services');
 
-const postSigninHandler = async (req, res) => {
+const postSigninHandler = async (req, res, next) => {
   try {
     const token = await authService.findByCredentials(req.body.email, req.body.password);
+
     return res.send({ token });
   } catch (error) {
-    return res.status(400).send(error.message);
+    return next(error);
   }
 };
 
@@ -24,6 +25,7 @@ const postSignupHandler = async (req, res) => {
 const getUserHandler = async (req, res) => {
   try {
     const user = await authService.getUserById(req.userId);
+
     res.send(user);
   } catch (error) {
     res.status(500).send('There was a problem finding the user.');

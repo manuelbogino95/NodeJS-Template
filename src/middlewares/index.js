@@ -1,1 +1,2 @@
-module.exports = require('./authMiddleware');
+module.exports.authMiddleware = require('./authMiddleware');
+module.exports.errorHandlerMiddleware = require('./errorHandlerMiddleware');

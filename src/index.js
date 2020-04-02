@@ -7,6 +7,7 @@ const helmet = require('helmet');
 const dotenv = require('dotenv');
 const router = require('./routes');
 const mongooseConnection = require('./db');
+const { errorHandlerMiddleware } = require('./middlewares');
 
 // Load environment variables from .env file, where API keys and passwords are configured.
 dotenv.config();
@@ -24,6 +25,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
 app.use(helmet());
 app.use(router);
+
+app.use(errorHandlerMiddleware);
 
 // Start Express server.
 app.listen(port, () => {

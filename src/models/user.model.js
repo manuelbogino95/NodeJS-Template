@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
 const validator = require('validator');
+const httpStatus = require('http-status-codes');
+const { CustomError } = require('../helpers');
 
 const userSchema = new mongoose.Schema(
   {
@@ -16,7 +18,7 @@ const userSchema = new mongoose.Schema(
       lowercase: true,
       validate(value) {
         if (!validator.isEmail(value)) {
-          throw new Error('Email is invalid');
+          throw new CustomError('INVALID_EMAIL', httpStatus.BAD_REQUEST);
         }
       },
     },

@@ -5,4 +5,6 @@ const generateAuthToken = async id =>
     expiresIn: 86400, // expires in 24 hours
   });
 
-module.exports = generateAuthToken;
+module.exports = {
+  generateAuthToken,
+};
